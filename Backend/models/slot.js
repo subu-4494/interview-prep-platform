@@ -8,7 +8,11 @@ const slotSchema = new mongoose.Schema({
     ref: 'User',
     required: true,
   },
-  date: {
+    startTime: {
+    type: Date,
+    required: true,
+  },
+  endTime: {
     type: Date,
     required: true,
   },

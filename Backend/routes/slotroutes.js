@@ -2,7 +2,13 @@
 
 const express = require('express');
 const router = express.Router();
-const { createSlot, bookSlot, getMyBookedSlots, cancelSlot, getAvailableSlots} = require('../controllers/slotcontroller');
+const {
+  createSlot,
+  bookSlot,
+  getMyBookedSlots,
+  cancelSlot,
+  getAvailableSlots
+} = require('../controllers/slotcontroller');
 const protect = require('../middlewares/authmiddlewares');
 
 router.post('/create', protect, createSlot);

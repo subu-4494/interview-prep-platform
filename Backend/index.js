@@ -3,6 +3,7 @@
 const app = require('./server');
 const http = require('http');
 const { Server } = require('socket.io');
+import { startCleanupExpiredSlotsJob } from './jobs/cleanexpiredjobs.js';
 
 const server = http.createServer(app);
 
@@ -14,7 +15,7 @@ const io = new Server(server, {
 });
 
 io.on('connection', (socket) => {
-  console.log(`🟢 User connected: ${socket.id}`);
+  console.log(` User connected: ${socket.id}`);
 
   // Join room
   socket.on('join-room', (roomId) => {
@@ -32,12 +33,13 @@ io.on('connection', (socket) => {
 
   // Handle disconnect
   socket.on('disconnect', () => {
-    console.log(`🔴 User disconnected: ${socket.id}`);
+    console.log(` User disconnected: ${socket.id}`);
     // Optional: notify room about peer leaving
   });
 });
 
 const PORT = process.env.PORT || 5000;
 server.listen(PORT, () => {
-  console.log(`🚀 Server + Socket.IO running at http://localhost:${PORT}`);
+  console.log(` Server + Socket.IO running at http://localhost:${PORT}`);
+  startCleanupExpiredSlotsJob();
 });

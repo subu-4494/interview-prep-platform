@@ -1,5 +1,3 @@
-// models/Slot.js
-
 const mongoose = require('mongoose');
 
 const slotSchema = new mongoose.Schema({
@@ -8,7 +6,7 @@ const slotSchema = new mongoose.Schema({
     ref: 'User',
     required: true,
   },
-    startTime: {
+  startTime: {
     type: Date,
     required: true,
   },
@@ -36,6 +34,10 @@ const slotSchema = new mongoose.Schema({
   bookedBy: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
+    default: null,
+  },
+  roomId: {
+    type: String, // unique room identifier
     default: null,
   },
 }, { timestamps: true });

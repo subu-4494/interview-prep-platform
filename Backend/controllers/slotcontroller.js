@@ -1,4 +1,5 @@
 const Slot = require('../models/slot');
+const { v4: uuidv4 } = require('uuid'); // 👈 to generate roomId
 
 const createSlot = async (req, res) => {
   const { startTime, duration, skills } = req.body;
@@ -11,7 +12,6 @@ const createSlot = async (req, res) => {
     const start = new Date(startTime);
     const end = new Date(start.getTime() + duration * 60000);
 
-    // ⛔ Check for overlapping slot conflict (either created or booked by the user)
     const conflict = await Slot.findOne({
       $or: [
         { createdBy: req.user._id },
@@ -54,7 +54,6 @@ const bookSlot = async (req, res) => {
       return res.status(400).json({ msg: "You can't book your own slot" });
     }
 
-    // ⛔ Check for overlapping slot conflict before booking
     const conflict = await Slot.findOne({
       $or: [
         { createdBy: req.user._id },
@@ -70,6 +69,7 @@ const bookSlot = async (req, res) => {
 
     slot.isBooked = true;
     slot.bookedBy = req.user._id;
+    slot.roomId = uuidv4(); // 👈 generate a unique roomId
 
     await slot.save();
     res.status(200).json({ msg: "Slot booked successfully", slot });
@@ -80,7 +80,9 @@ const bookSlot = async (req, res) => {
 
 const getMyBookedSlots = async (req, res) => {
   try {
-    const slots = await Slot.find({ bookedBy: req.user._id }).populate('createdBy', 'name email');
+    const slots = await Slot.find({ bookedBy: req.user._id })
+      .populate('createdBy', 'name email');
+
     res.status(200).json(slots);
   } catch (err) {
     res.status(500).json({ msg: "Server error", error: err.message });
@@ -113,12 +115,10 @@ const getAvailableSlots = async (req, res) => {
 
     let filter = { isBooked: false };
 
-    // Skills filter
     if (skillsQuery.length > 0) {
       filter.skills = { $in: skillsQuery };
     }
 
-    // Date range filter
     if (fromDate && toDate) {
       filter.startTime = { $gte: fromDate, $lte: toDate };
     } else if (fromDate) {
@@ -135,8 +135,6 @@ const getAvailableSlots = async (req, res) => {
     res.status(500).json({ message: 'Failed to fetch available slots' });
   }
 };
-
-
 
 module.exports = {
   createSlot,

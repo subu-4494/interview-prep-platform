@@ -1,8 +1,8 @@
 // index.js
 
-const app = require('./server');
-const http = require('http');
-const { Server } = require('socket.io');
+import app from './server.js';
+import http from 'http';
+import {Server } from 'socket.io';
 import { startCleanupExpiredSlotsJob } from './jobs/cleanexpiredjobs.js';
 
 const server = http.createServer(app);

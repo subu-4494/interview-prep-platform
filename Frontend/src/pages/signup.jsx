@@ -13,7 +13,7 @@ import img8 from './interview8.jpg';
 import img9 from './interview9.jpg';
 import img10 from './interview10.jpg';
 
-const images = [img1, img2, img3, img4, img5, img6, img7, img8, img9, img10];
+const images = [  img5,img6, img7, img8];
 
 const Signup = () => {
   const [form, setForm] = useState({ name: '', email: '', password: '', skills: '' });
@@ -22,10 +22,17 @@ const Signup = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentImageIndex((prevIndex) => (prevIndex + 1) % images.length);
-    }, 1000);
-    return () => clearInterval(interval);
+    // random image on reload
+    // const randomIndex = Math.floor(Math.random() * images.length);
+    // setCurrentImageIndex(randomIndex);
+
+    // ---- if you prefer sequential instead, comment above and uncomment below ----
+   
+    const lastIndex = parseInt(localStorage.getItem('lastImageIndex') || '0',5);
+    const nextIndex = (lastIndex + 1) % images.length;
+    setCurrentImageIndex(nextIndex);
+    localStorage.setItem('lastImageIndex', nextIndex);
+    
   }, []);
 
   const handleChange = (e) => {
@@ -51,7 +58,7 @@ const Signup = () => {
 
   return (
     <div className="signup-container">
-      <header className="signup-header">"Sharpen your skills with prep4Sde! 🚀"</header>
+      <header className="signup-header">"Sharpen your skills with prep4Sde!"</header>
       <div className="signup-main">
         <div className="signup-image">
           <img

@@ -28,7 +28,19 @@
 .login-image {
   width: 35%;
   display: block;
+  overflow: hidden;
+  border-radius: 10px;
+  aspect-ratio: 16 / 9; /* keeps it proportional */
 }
+
+.login-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 10px;
+  transition: opacity 0.5s ease-in-out;
+}
+
 
 .login-form-container {
   width: 100%;

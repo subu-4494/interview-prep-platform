@@ -3,10 +3,11 @@ import { useNavigate } from 'react-router-dom';
 import './login.css';
 
 import img1 from './interview1.jpg';
-import img2 from './interview4.jpg';
-import img3 from './interview7.jpg';
+import img2 from './interview2.jpg';
+import img3 from './interview10.jpg';
+import img4 from './interview3.jpg';
 
-const images = [img1, img2, img3];
+const images = [img1, img2, img3, img4];
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -16,15 +17,21 @@ const Login = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentImageIndex((prev) => (prev + 1) % images.length);
-    }, 1000);
-    return () => clearInterval(interval);
+    // Sequential slideshow logic
+    const lastIndex = parseInt(localStorage.getItem('loginLastImageIndex') || '0', 10);
+    const nextIndex = (lastIndex + 1) % images.length;
+    setCurrentImageIndex(nextIndex);
+    localStorage.setItem('loginLastImageIndex', nextIndex);
   }, []);
 
   const handleLogin = async (e) => {
     e.preventDefault();
     setError('');
+
+    if (!email || !password) {
+      setError('Please enter email and password.');
+      return;
+    }
 
     try {
       const res = await fetch('http://localhost:5000/api/auth/login', {
@@ -42,16 +49,30 @@ const Login = () => {
         return;
       }
 
+      if (!data.token || !data.user) {
+        setError('Invalid server response');
+        return;
+      }
+
+      //  Save both token & userId
       localStorage.setItem('token', data.token);
-      navigate('/booked-slots');
+      localStorage.setItem('userId', data.user.id ||data.user.id);
+     
+
+
+     navigate('/slots/available');
     } catch (err) {
+      console.error(err);
       setError('Server error');
     }
   };
 
   return (
     <div className="login-container">
-      <header className="login-header">"Start your journey with prep4Sde! ✨"</header>
+      <header className="login-header">
+        Start your journey with <b>prep4Sde! ✨</b>
+      </header>
+
       <div className="login-main">
         <div className="login-image">
           <img
@@ -83,21 +104,31 @@ const Login = () => {
               onChange={(e) => setPassword(e.target.value)}
               required
             />
-            {error && <p style={{ color: 'red', fontSize: '13px' }}>{error}</p>}
+
+            {error && (
+              <p style={{ color: 'red', fontSize: '13px', marginTop: '5px' }}>
+                {error}
+              </p>
+            )}
+
             <button type="submit">Login</button>
           </form>
+
           <p style={{ marginTop: '10px', fontSize: '14px' }}>
-            Don't have an account? <a href="/signup">Sign Up</a>
+            Don&apos;t have an account? <a href="/signup">Sign Up</a>
           </p>
         </div>
       </div>
+
       <footer className="login-footer">
         <a href="#">Privacy Policy</a>
         <a href="#">Terms</a>
         <a href="#">About</a>
         <a href="#">Help</a>
         <a href="#">Contact</a>
-        <p style={{ marginTop: '5px' }}>© {new Date().getFullYear()} prep4Sde</p>
+        <p style={{ marginTop: '5px' }}>
+          © {new Date().getFullYear()} prep4Sde
+        </p>
       </footer>
     </div>
   );

@@ -1,6 +1,7 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
 import InterviewRoom from '../components/interviewroom';
+import CodeEditor from './codeeditor';
 
 const RoomPage = () => {
   const { roomId } = useParams();
@@ -8,6 +9,7 @@ const RoomPage = () => {
   return (
     <div>
       <InterviewRoom roomId={roomId} />
+      <CodeEditor />
     </div>
   );
 };

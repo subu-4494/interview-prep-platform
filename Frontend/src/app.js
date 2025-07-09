@@ -5,6 +5,7 @@ import AvailableSlots from './pages/availableslots';
 import BookedSlots from './pages/bookedslot';
 import Login from './pages/login';
 import Signup from './pages/signup';
+import CodeEditor from './pages/codeeditor';
 
 function App() {
   return (

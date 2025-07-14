@@ -136,10 +136,29 @@ const getAvailableSlots = async (req, res) => {
   }
 };
 
+
+ const getCreatedAndBookedSlots = async (req, res) => {
+  try {
+    const userId = req.user.id;
+
+    const slots = await Slot.find({
+      createdBy: userId,
+      bookedBy: { $ne: null }
+    }).populate('bookedBy', 'name email');
+
+    res.json(slots);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ msg: 'Server error' });
+  }
+};
+
+
 module.exports = {
   createSlot,
   bookSlot,
   getMyBookedSlots,
   cancelSlot,
-  getAvailableSlots
+  getAvailableSlots,
+  getCreatedAndBookedSlots
 };

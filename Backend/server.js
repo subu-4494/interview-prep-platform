@@ -7,6 +7,7 @@ import authRoutes from "./routes/authroutes.js";
 import userRoutes from "./routes/userroutes.js";
 import slotRoutes from "./routes/slotroutes.js";
 
+
 dotenv.config();
 
 const app = express();

@@ -9,7 +9,7 @@ const RoomPage = () => {
   return (
     <div>
       <InterviewRoom roomId={roomId} />
-      <CodeEditor />
+      
     </div>
   );
 };

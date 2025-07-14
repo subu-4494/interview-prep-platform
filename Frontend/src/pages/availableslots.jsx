@@ -60,7 +60,7 @@ const SlotsPage = () => {
         return;
       }
 
-      setMessage('✅ Slot booked successfully!');
+      setMessage('Slot booked successfully!');
       fetchSlots();
     } catch (err) {
       setMessage('Server error');
@@ -127,7 +127,7 @@ const SlotsPage = () => {
         return;
       }
 
-      setMessage('✅ Slot created successfully!');
+      setMessage('Slot created successfully!');
       fetchSlots();
     } catch (err) {
       setMessage('Server error');
@@ -144,13 +144,13 @@ const SlotsPage = () => {
     <div className="slots-container">
       {isLoggedIn && (
         <button onClick={handleLogout} className="btn btn-logout-corner">
-          🔓 Logout
+          Logout
         </button>
       )}
 
       <div className="controls">
         <button
-          onClick={() => setShowBooked(!showBooked)}
+          onClick={() => navigate(showBooked ? '/slots' : '/slots/booked')}
           className="btn btn-toggle"
         >
           {showBooked ? 'Show Available Slots' : 'Show My Booked Slots'}
@@ -158,12 +158,20 @@ const SlotsPage = () => {
 
         {!showBooked && (
           <button onClick={handleCreateSlot} className="btn btn-create">
-            ➕ Create Slot
+            Create Slot
           </button>
         )}
+
+        {/* 🔷 New Button added here */}
+        <button
+          onClick={() => navigate('/slots/created-and-booked')}
+          className="btn btn-interviews"
+        >
+          Your Interviews
+        </button>
       </div>
 
-      <h2>{showBooked ? '📋 My Booked Slots' : '📅 Available Slots'}</h2>
+      <h2>{showBooked ? 'Booked Slots' : 'Available Slots'}</h2>
 
       {loading && <p>Loading...</p>}
       {message && <p className="success-message">{message}</p>}
@@ -195,7 +203,7 @@ const SlotsPage = () => {
                   onClick={() => handleDelete(slot._id)}
                   className="btn btn-delete"
                 >
-                  🗑️ Delete
+                  Delete
                 </button>
               )}
             </div>

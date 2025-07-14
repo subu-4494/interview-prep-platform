@@ -48,9 +48,28 @@ const BookedSlots = () => {
     return now >= start && now <= end;
   };
 
+  const handleGoToAvailable = () => {
+    navigate('/slots/available');
+  };
+
   return (
     <div style={{ maxWidth: '600px', margin: 'auto', padding: '20px' }}>
-      <h2>Your Booked Slots</h2>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        <h2>Your Booked Slots</h2>
+        <button
+          onClick={handleGoToAvailable}
+          style={{
+            padding: '6px 10px',
+            backgroundColor: '#3b82f6',
+            color: '#fff',
+            border: 'none',
+            borderRadius: '4px',
+            cursor: 'pointer'
+          }}
+        >
+          🔙 View Available Slots
+        </button>
+      </div>
 
       {loading && <p>Loading slots…</p>}
 
@@ -71,6 +90,11 @@ const BookedSlots = () => {
             >
               <strong>Start:</strong> {new Date(slot.startTime).toLocaleString()} <br />
               <strong>End:</strong> {new Date(slot.endTime).toLocaleString()} <br />
+                <strong>Duration:</strong>{' '}
+                {Math.round(
+                 (new Date(slot.endTime) - new Date(slot.startTime)) / (1000 * 60)
+               )} mins
+             <br />
               <strong>With:</strong> {slot.createdBy?.name || 'Peer'} <br />
               <strong>Skills:</strong> {slot.skills.join(', ')} <br />
 
@@ -87,11 +111,11 @@ const BookedSlots = () => {
                     borderRadius: '4px'
                   }}
                 >
-                  🎥 Join Interview
+                   Join Interview
                 </button>
               ) : (
                 <span style={{ marginTop: '10px', display: 'inline-block', color: 'gray' }}>
-                  ⏳ Not available yet
+                   Not available yet
                 </span>
               )}
             </li>

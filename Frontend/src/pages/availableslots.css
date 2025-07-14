@@ -105,3 +105,15 @@
   background-color: #555;
   cursor: not-allowed;
 }
+
+.btn-interviews {
+  background-color: #9C27B0; /* a nice purple */
+  color: white;
+  margin-left: 8px;
+  transition: background-color 0.3s ease;
+}
+
+.btn-interviews:hover {
+  background-color: #7B1FA2;
+}
+

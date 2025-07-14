@@ -6,6 +6,7 @@ import BookedSlots from './pages/bookedslot';
 import Login from './pages/login';
 import Signup from './pages/signup';
 import CodeEditor from './pages/codeeditor';
+import YourInterviewsPage from './pages/yourinterviewpage';
 
 function App() {
   return (
@@ -19,6 +20,8 @@ function App() {
         <Route path="/slots/available" element={<AvailableSlots />} />
         <Route path="/slots/booked" element={<BookedSlots />} />
         <Route path="/room/:roomId" element={<RoomPage />} />
+        <Route path="/slots/created-and-booked" element={<YourInterviewsPage />} />
+
       </Routes>
     </Router>
   );

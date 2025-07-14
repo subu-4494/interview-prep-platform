@@ -22,11 +22,7 @@ const Signup = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // random image on reload
-    // const randomIndex = Math.floor(Math.random() * images.length);
-    // setCurrentImageIndex(randomIndex);
-
-    // ---- if you prefer sequential instead, comment above and uncomment below ----
+   
    
     const lastIndex = parseInt(localStorage.getItem('lastImageIndex') || '0',5);
     const nextIndex = (lastIndex + 1) % images.length;
@@ -42,7 +38,7 @@ const Signup = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await fetch('http://localhost:5000/api/auth/signup', {
+      const res = await fetch('https://interview-prep-platform-07wl.onrender.com/api/auth/signup', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(form)

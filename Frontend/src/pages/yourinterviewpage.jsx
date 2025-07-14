@@ -14,7 +14,7 @@ const YourInterviewsPage = () => {
       setLoading(true);
       try {
         const res = await fetch(
-          'http://localhost:5000/api/slots/slots/created-and-booked',
+          'https://interview-prep-platform-07wl.onrender.com/api/slots/slots/created-and-booked',
           {
             headers: { Authorization: `Bearer ${token}` },
           }

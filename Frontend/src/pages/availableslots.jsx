@@ -19,8 +19,8 @@ const SlotsPage = () => {
       setMessage('');
 
       const url = showBooked
-        ? 'http://localhost:5000/api/slots/booked'
-        : 'http://localhost:5000/api/slots/available';
+        ? 'https://interview-prep-platform-07wl.onrender.com/api/slots/booked'
+        : 'https://interview-prep-platform-07wl.onrender.com/api/slots/available';
 
       const res = await fetch(url, {
         headers: { Authorization: `Bearer ${token}` }
@@ -48,7 +48,7 @@ const SlotsPage = () => {
 
   const handleBook = async (slotId) => {
     try {
-      const res = await fetch(`http://localhost:5000/api/slots/book/${slotId}`, {
+      const res = await fetch(`https://interview-prep-platform-07wl.onrender.com/api/slots/book/${slotId}`, {
         method: 'POST',
         headers: { Authorization: `Bearer ${token}` }
       });
@@ -71,7 +71,7 @@ const SlotsPage = () => {
     if (!window.confirm('Are you sure you want to delete this slot?')) return;
 
     try {
-      const res = await fetch(`http://localhost:5000/api/slots/cancel/${slotId}`, {
+      const res = await fetch(`https://interview-prep-platform-07wl.onrender.com/api/slots/cancel/${slotId}`, {
         method: 'DELETE',
         headers: { Authorization: `Bearer ${token}` }
       });
@@ -107,7 +107,7 @@ const SlotsPage = () => {
     const skills = skillsInput.split(',').map((s) => s.trim());
 
     try {
-      const res = await fetch(`http://localhost:5000/api/slots/create`, {
+      const res = await fetch(`https://interview-prep-platform-07wl.onrender.com/api/slots/create`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

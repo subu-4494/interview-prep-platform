@@ -48,10 +48,13 @@ const SlotsPage = () => {
 
   const handleBook = async (slotId) => {
     try {
-      const res = await fetch(`https://interview-prep-platform-07wl.onrender.com/api/slots/book/${slotId}`, {
-        method: 'POST',
-        headers: { Authorization: `Bearer ${token}` }
-      });
+      const res = await fetch(
+        `https://interview-prep-platform-07wl.onrender.com/api/slots/book/${slotId}`,
+        {
+          method: 'POST',
+          headers: { Authorization: `Bearer ${token}` }
+        }
+      );
 
       const data = await res.json();
 
@@ -71,10 +74,13 @@ const SlotsPage = () => {
     if (!window.confirm('Are you sure you want to delete this slot?')) return;
 
     try {
-      const res = await fetch(`https://interview-prep-platform-07wl.onrender.com/api/slots/cancel/${slotId}`, {
-        method: 'DELETE',
-        headers: { Authorization: `Bearer ${token}` }
-      });
+      const res = await fetch(
+        `https://interview-prep-platform-07wl.onrender.com/api/slots/cancel/${slotId}`,
+        {
+          method: 'DELETE',
+          headers: { Authorization: `Bearer ${token}` }
+        }
+      );
 
       const data = await res.json();
 
@@ -107,18 +113,21 @@ const SlotsPage = () => {
     const skills = skillsInput.split(',').map((s) => s.trim());
 
     try {
-      const res = await fetch(`https://interview-prep-platform-07wl.onrender.com/api/slots/create`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`
-        },
-        body: JSON.stringify({
-          startTime,
-          duration: parseInt(duration),
-          skills
-        })
-      });
+      const res = await fetch(
+        `https://interview-prep-platform-07wl.onrender.com/api/slots/create`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`
+          },
+          body: JSON.stringify({
+            startTime,
+            duration: parseInt(duration),
+            skills
+          })
+        }
+      );
 
       const data = await res.json();
 
@@ -138,6 +147,15 @@ const SlotsPage = () => {
     localStorage.removeItem('token');
     localStorage.removeItem('userId');
     navigate('/login');
+  };
+
+  // ✅ Format date/time in IST (Asia/Kolkata)
+  const formatDateTime = (dateString) => {
+    return new Date(dateString).toLocaleString('en-IN', {
+      timeZone: 'Asia/Kolkata',
+      dateStyle: 'medium',
+      timeStyle: 'short',
+    });
   };
 
   return (
@@ -162,7 +180,6 @@ const SlotsPage = () => {
           </button>
         )}
 
-        {/* 🔷 New Button added here */}
         <button
           onClick={() => navigate('/slots/created-and-booked')}
           className="btn btn-interviews"
@@ -182,7 +199,7 @@ const SlotsPage = () => {
         {slots.map((slot) => (
           <li key={slot._id} className="slot-item">
             <div>
-              <strong>Start:</strong> {new Date(slot.startTime).toLocaleString()} <br />
+              <strong>Start:</strong> {formatDateTime(slot.startTime)} <br />
               <strong>Duration:</strong> {slot.duration} mins <br />
               <strong>Skills:</strong> {slot.skills.join(', ')} <br />
               <strong>By:</strong> {slot.createdBy?.name || 'N/A'}

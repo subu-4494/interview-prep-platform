@@ -97,7 +97,7 @@ const SlotsPage = () => {
   };
 
   const handleCreateSlot = async () => {
-    const startTime = prompt(
+    const startTimeInput = prompt(
       'Enter start time (YYYY-MM-DDTHH:mm, e.g., 2025-07-09T12:00)'
     );
     const duration = prompt('Enter duration in minutes (e.g., 60)');
@@ -105,11 +105,13 @@ const SlotsPage = () => {
       'Enter skills required (comma separated, e.g., React,Node)'
     );
 
-    if (!startTime || !duration || !skillsInput) {
+    if (!startTimeInput || !duration || !skillsInput) {
       setMessage('All fields are required to create a slot.');
       return;
     }
 
+    // ✅ Convert to UTC ISO before sending
+    const startTime = new Date(startTimeInput).toISOString();
     const skills = skillsInput.split(',').map((s) => s.trim());
 
     try {
@@ -149,7 +151,7 @@ const SlotsPage = () => {
     navigate('/login');
   };
 
-  // ✅ Format date/time in IST (Asia/Kolkata)
+  // ✅ Always display in IST
   const formatDateTime = (dateString) => {
     return new Date(dateString).toLocaleString('en-IN', {
       timeZone: 'Asia/Kolkata',

@@ -35,7 +35,7 @@ const YourInterviewsPage = () => {
     };
 
     fetchSlots();
-  }, []);
+  }, [token]);
 
   const handleJoin = (roomId) => {
     navigate(`/room/${roomId}`);
@@ -45,6 +45,15 @@ const YourInterviewsPage = () => {
     const now = new Date();
     const start = new Date(startTime);
     return now >= start;
+  };
+
+  //Format time in IST (Asia/Kolkata)
+  const formatDateTime = (dateString) => {
+    return new Date(dateString).toLocaleString('en-IN', {
+      timeZone: 'Asia/Kolkata',
+      dateStyle: 'medium',
+      timeStyle: 'short',
+    });
   };
 
   return (
@@ -68,8 +77,7 @@ const YourInterviewsPage = () => {
             }}
           >
             <div>
-              <strong>Start:</strong>{' '}
-              {new Date(slot.startTime).toLocaleString()}
+              <strong>Start:</strong> {formatDateTime(slot.startTime)}
               <br />
               <strong>Duration:</strong> {slot.duration} mins
               <br />
